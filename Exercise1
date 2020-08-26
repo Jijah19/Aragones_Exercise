@@ -1,0 +1,32 @@
+# Aragones_Exercise 1
+
+
+#!/bin/bash 
+if
+TOTAL_MEMORY=$( free | grep Mem: | awk '{ print $2 }' )
+
+then
+
+	echo "Critical threshold  %cpu Usage"
+	ps -c -o pcpu,cpu,nice,state,cputime,args --sort pcpu  
+	echo "Warning threshold %cpu Usage "
+	ps -w -orss=,args= | sort -b -k1,1n # sorted bases rss value
+
+
+else
+	case "$1" in
+	mem)
+	 echo "Critical threshold based on the memory Usage"
+ 	 ps -c -orss=,args= | sort -b -k1,1n
+	 ;;
+ 	cpu)
+	 echo "Warning threshold %cpu Usage"
+	 ps -w -o pcpu,cpu,nice,state,cputime,args --sort pcpu
+	 ;;
+ 	*)
+ 
+        echo " Usage : $0 mem/cpu
+
+fi
+echo  -e "Crital !\n\nFree memory: $free MB" | mailx -a "$file" -s "$subject" -r "$from" -y "$year " -m "$month" -d "$date" -hm "$HoursMin"	
+exit 0
